@@ -39,6 +39,21 @@ def charada_aleatoria():
     
     else:
         return jsonify({'Mensagem': 'Erro! Nenhuma charada encontrada.'}), 404
+    
+
+#Listar charadas
+@app.route('/charadas/lista', methods=['GET'])
+def charada_lista():
+    charadas = []
+    lista = db.collection('charadas').stream()
+    for item in lista:
+        charadas.append(item.to_dict()) #Transforma em dicionário cada charada do firebase
+
+    if charadas:
+        return jsonify(charadas), 200
+    
+    else:
+        return jsonify({'Mensagem': 'Erro! Nenhuma charada encontrada.'}), 404
 
 #Rota método GET, charada por ID
 @app.route('/charadas/<id>', methods=['GET'])
